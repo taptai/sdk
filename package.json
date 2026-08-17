@@ -11,7 +11,14 @@
   "bugs": {
     "url": "https://github.com/taptai/sdk/issues"
   },
-  "keywords": ["tapt", "tracking", "analytics", "funnel", "conversion", "sdk"],
+  "keywords": [
+    "tapt",
+    "tracking",
+    "analytics",
+    "funnel",
+    "conversion",
+    "sdk"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,9 +29,13 @@
     }
   },
   "bin": {
-    "tapt": "./dist/cli.js"
+    "tapt": "dist/cli.js"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "sideEffects": false,
   "engines": {
     "node": ">=18"
