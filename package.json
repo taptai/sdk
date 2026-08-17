@@ -1,0 +1,46 @@
+{
+  "name": "@tapt/sdk",
+  "version": "0.0.1",
+  "description": "The tapt SDK. Track every action on the pages, forms, calendars and video your funnel runs on.",
+  "license": "MIT",
+  "homepage": "https://tapt.so",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taptai/sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/taptai/sdk/issues"
+  },
+  "keywords": ["tapt", "tracking", "analytics", "funnel", "conversion", "sdk"],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "tapt": "./dist/cli.js"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0"
+  }
+}
