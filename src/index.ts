@@ -7,7 +7,7 @@
 //   { sourceType: 'site', key, stepId?, type, sessionId, idempotencyKey, payload? }
 // The ingest always answers 204; delivery is confirmed in the events table.
 
-export const VERSION = '0.0.2'
+export const VERSION = '0.0.3'
 
 export type EventType = 'page_viewed' | 'page_left' | 'clicked' | 'submitted'
 export type Payload = Record<string, string>
@@ -17,6 +17,8 @@ export type InitOptions = {
 }
 
 const KEY_RE = /^pk_[0-9a-f]{32}$/
+// The ingest validates sessionId as a uuid and drops silently, so never trust a stored one blindly.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const SESSION_KEY = 'tapt:sid'
 const MAX_VALUE = 512 // the contract's cap per payload value and per stepId
 
@@ -54,7 +56,7 @@ export function track(type: EventType, payload?: Payload): void {
 function sessionId(): string {
   try {
     const existing = sessionStorage.getItem(SESSION_KEY)
-    if (existing) return existing
+    if (existing && UUID_RE.test(existing)) return existing
     const fresh = crypto.randomUUID()
     sessionStorage.setItem(SESSION_KEY, fresh)
     return fresh
