@@ -10,7 +10,7 @@
 //   The ingest emits the journey's `submitted` itself beside the record.
 // The ingest always answers 204; delivery is confirmed in the tables, not the status.
 
-export const VERSION = '0.0.3'
+export const VERSION = '0.0.4'
 
 export type EventType = 'page_viewed' | 'page_left' | 'clicked' | 'submitted'
 export type Payload = Record<string, string>
