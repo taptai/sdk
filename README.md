@@ -23,6 +23,20 @@ track('clicked', { cta: 'book-a-call' })
 
 Events are posted as text/plain with keepalive, and by sendBeacon when the page is closing. Types: page_viewed, page_left, clicked, submitted.
 
+To store what a visitor submits, mark the form. Only marked forms are captured; the value names the stream.
+
+```html
+<form data-tapt-optin="free-class">
+  <input name="email" type="email" />
+  <input name="csrf" type="hidden" />  <!-- hidden inputs are skipped unless marked data-tapt-field -->
+  <button>Claim seat</button>
+</form>
+```
+
+Field names come from the inputs' name attributes, lowercased. Password and file inputs are never captured. The record posts to your endpoint plus `/optin`, so your forward route passes that sub-path through too, and the ingest emits the journey's submitted event itself. Unmarked forms are untouched.
+
+`getSessionId()` returns the per-tab session id after init, for joining your own server-side records to the journey.
+
 Docs live at [docs.tapt.so](https://docs.tapt.so).
 
 MIT.
