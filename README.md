@@ -37,6 +37,8 @@ Field names come from the inputs' name attributes, lowercased. Password and file
 
 `getSessionId()` returns the per-tab session id after init, for joining your own server-side records to the journey.
 
+On localhost nothing is sent and nothing is captured, so dev runs never land in a Site's live data. Pass `debug: true` to init to override that when you need to test against the live ingest.
+
 Docs live at [docs.tapt.so](https://docs.tapt.so).
 
 MIT.

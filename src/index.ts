@@ -10,14 +10,19 @@
 //   The ingest emits the journey's `submitted` itself beside the record.
 // The ingest always answers 204; delivery is confirmed in the tables, not the status.
 
-export const VERSION = '0.0.4'
+export const VERSION = '0.0.5'
 
 export type EventType = 'page_viewed' | 'page_left' | 'clicked' | 'submitted'
 export type Payload = Record<string, string>
 export type InitOptions = {
   key: string // the Site's public key from `npx @tapt/sdk`: pk_ + 32 lowercase hex
   endpoint: string // the site's own path that forwards to e.tapt.online — required, no default
+  debug?: boolean // the only way to send from localhost; for testing against the live ingest
 }
+
+// Localhost never counts: a dev run must not leave rows in a Site's live tables.
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '[::1]'])
+const isLocal = (host: string) => LOCAL_HOSTS.has(host) || host.endsWith('.localhost')
 
 const KEY_RE = /^pk_[0-9a-f]{32}$/
 // The ingest validates sessionId as a uuid and drops silently, so never trust a stored one blindly.
@@ -43,6 +48,7 @@ export function init(options: InitOptions): void {
   if (!KEY_RE.test(options?.key ?? '')) throw new TypeError('tapt: init needs a key like pk_<32 hex>')
   if (!options.endpoint) throw new TypeError('tapt: init needs an endpoint')
   if (typeof window === 'undefined') return // SSR render: nothing to track here
+  if (isLocal(location.hostname) && !options.debug) return // no config, so track() and capture() stay silent
   config = { key: options.key, endpoint: options.endpoint, sessionId: sessionId() }
   // Leaving fires from the beacon path; pagehide is the last event a dying page gets.
   window.addEventListener('pagehide', () => track('page_left'))

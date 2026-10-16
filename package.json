@@ -1,6 +1,6 @@
 {
   "name": "@tapt/sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The tapt SDK. Track every action on the pages, forms, calendars and video your funnel runs on.",
   "license": "MIT",
   "homepage": "https://tapt.so",
